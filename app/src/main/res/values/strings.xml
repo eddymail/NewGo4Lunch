@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">Go4Lunch</string>
+
+    <!-- MAIN ACTIVITY -->
+    <string name="main_activity_no_choose_restaurant">You have not selected a restaurant</string>
+    <string name="main_activity_success_log_out">Log out with success</string>
+
+    <!-- AUTH ACTIVITY -->
+    <string name="auth_activity_subtitle">Find a nice restaurant and invite your co-workers for lunch!</string>
+    <string name="auth_activity_button_facebook">Sign in with Facebook</string>
+    <string name="auth_activity_button_google">Sign in with Google</string>
+    <string name="hello_blank_fragment" />
+    <string name="response_sign_in_success">Successfully connected</string> />
+    <string name="response_sign_in_error" />
+    <string name="error_unknown_error">error unknown</string>
+
+    <!-- Used in NavigationDrawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- NAVIGATION HEADER -->
+    <string name="navigation_header_name">Name</string>
+    <string name="navigation_header_email">Email</string>
+
+    <!-- NAVIGATION DRAWER MENU -->
+    <string name="navigation_drawer_your_lunch">YOUR LUNCH</string>
+    <string name="navigation_drawer_settings">SETTINGS</string>
+    <string name="navigation_drawer_logout">LOGOUT</string>
+
+    <!-- BOTTOM NAVIGATION VIEW -->
+    <string name="bottom_navigation_menu_mapview">Map View</string>
+    <string name="bottom_navigation_menu_listview">List View</string>
+    <string name="bottom_navigation_menu_workmates">Workmates</string>
+
+    <!-- ITEM LIST RESTAURANTS -->
+    <string name="item_restaurant_name">Restaurant</string>
+    <string name="item_restaurant_address">Address</string>
+    <string name="item_restaurant_hours">Hours</string>
+    <string name="item_restaurant_distance">Distance</string>
+    <string name="item_restaurant_number_rating">(1)</string>
+    <string name="list_restaurants_open_now">Open now</string>
+    <string name="list_restaurants_close_now">Close now</string>
+
+    <!-- DETAILS RESTAURANT -->
+    <string name="details_restaurant_name">Restaurant</string>
+    <string name="details_restaurant_address">Address</string>
+    <string name="details_restaurant_call">CALL</string>
+    <string name="details_restaurant_like">LIKE</string>
+    <string name="details_restaurant_website">WEBSITE</string>
+    <string name="details_restaurant_choose_for_lunch">Your choice !</string>
+    <string name="details_restaurant_no_longer_choose_for_lunch">Is no longer your choice !</string>
+    <string name="details_restaurant_added_favorites">Add to your favorites !</string>
+    <string name="details_restaurant_removed_favorites">Removed from your favorites !</string>
+    <string name="details_restaurant_website_no_application_found">No corresponding application found</string>
+    <string name="details_restaurant_no_website">This restaurant does not have a website</string>
+    <string name="details_restaurant_no_phone">This restaurant does not have a phone number</string>
+
+    <!-- LIST WORKMATES ADAPTER -->
+    <string name="list_workmates_adapter_is_eating">is eating (</string>
+    <string name="list_workmates_adapter_parenthesis">)</string>
+    <string name="list_workmates_adapter_hasnt_decided_yet">hasn\'t decided yet</string>
+    <string name="list_workmates_adapter_is_joining">%s is joining !</string>
+
+
+    <!-- GOOGLE MAP -->
+    <string name="api_key">AIzaSyCWUct2PRBITjwO_XKeePtRNruVd2S53sQ</string>
+    <string name="bottom_navigation_menu_list_view">List View</string>
+    <string name="bottom_navigation_menu_map_view">Map View</string>
+    <string name="faim">J\'ai faim!</string>
+
+    <!-- TOOL BAR -->
+    <string name="TB_search_text">"Je cherche un resto"</string>
+</resources>

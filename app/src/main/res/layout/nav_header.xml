@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_header"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/main_activity_nav_header_height"
+    android:background="@drawable/header_background">
+
+    <TextView
+        android:id="@+id/nav_header_title_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/nav_drawer_title"
+        android:text="@string/app_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/nav_header_margin_default"/>
+
+    <ImageView
+        android:id="@+id/nav_header_image_view"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_person_white_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nav_header_title_txt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/nav_header_margin_image"
+        android:layout_marginTop="@dimen/nav_header_margin_image"
+        android:layout_marginStart="@dimen/nav_header_margin_default"
+        android:contentDescription="@null"
+        android:layout_marginLeft="@dimen/nav_header_margin_default" />
+
+    <TextView
+        android:id="@+id/nav_header_name_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/nav_drawer_name"
+        android:textAllCaps="false"
+        android:layout_marginTop="@dimen/nav_header_margin_txt"
+        app:layout_constraintStart_toEndOf="@id/nav_header_image_view"
+        app:layout_constraintTop_toTopOf="@id/nav_header_image_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/nav_header_margin_txt"
+        android:layout_marginStart="@dimen/nav_header_margin_txt"
+        android:text="@string/navigation_header_name"/>
+
+    <TextView
+        android:id="@+id/nav_header_email_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/nav_drawer_email"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/nav_header_name_txt"
+        app:layout_constraintStart_toStartOf="@id/nav_header_name_txt"
+        app:layout_constraintEnd_toEndOf="@id/nav_header_name_txt"
+        android:text="@string/navigation_header_email"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

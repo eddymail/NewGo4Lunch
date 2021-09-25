@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- AUTH ACTIVITY -->
+    <dimen name="auth_activity_size_title">70sp</dimen>
+    <dimen name="auth_activity_size_subtitle">12sp</dimen>
+    <dimen name="auth_activity_size_text_button">18sp</dimen>
+    <dimen name="auth_activity_margin_start">60dp</dimen>
+    <dimen name="auth_activity_padding_button">10dp</dimen>
+    <dimen name="auth_activity_width_image">250dp</dimen>
+    <dimen name="auth_activity_height_image">180dp</dimen>
+    <dimen name="auth_activity_margin_top_image">58dp</dimen>
+    <dimen name="auth_activity_margin_button">32dp</dimen>
+    <dimen name="main_activity_height_image_logo">120sp</dimen>
+
+
+
+    <!-- NAVIGATION DRAWER -->
+    <dimen name="nav_drawer_size_header">300dp</dimen>
+    <dimen name="nav_drawer_size_title">40sp</dimen>
+    <dimen name="nav_drawer_size_name">16sp</dimen>
+    <dimen name="nav_drawer_size_email">12sp</dimen>
+    <dimen name="nav_drawer_marginTop_title">50dp</dimen>
+
+    <!-- NAVIGATION HEADER -->
+    <dimen name="nav_header_margin_default">16dp</dimen>
+    <dimen name="nav_header_margin_image">32dp</dimen>
+    <dimen name="nav_header_margin_txt">8dp</dimen>
+
+    <!-- ITEM LIST RESTAURANT -->
+    <dimen name="item_restaurant_size_name">18sp</dimen>
+    <dimen name="item_restaurant_size_description">16sp</dimen>
+    <dimen name="item_restaurant_size_distance">18sp</dimen>
+    <dimen name="item_restaurant_margin_default">10dp</dimen>
+    <dimen name="item_list_restaurant_margin_bottom_hours">16dp</dimen>
+    <dimen name="item_list_restaurant_margin_start_address">10dp</dimen>
+    <dimen name="item_restaurant_margin_end_stars">4dp</dimen>
+    <dimen name="item_restaurant_margin_end_distance">20dp</dimen>
+    <dimen name="item_restaurant_margin_end_people_rating">25dp</dimen>
+    <dimen name="item_restaurant_margin_end_illustration">10dp</dimen>
+    <dimen name="item_restaurant_margin_bottom_number_rating">5dp</dimen>
+    <dimen name="item_list_restaurant_width_image">0dp</dimen>
+    <dimen name="item_list_restaurant_height_star">16dp</dimen>
+    <dimen name="item_list_restaurant_height_people_rating">30dp</dimen>
+    <dimen name="item_list_restaurant_size_image_illustration">100dp</dimen>
+
+    <!-- ITEM LIST WORKATES -->
+    <dimen name="item_list_workmates_size_txt">16sp</dimen>
+    <dimen name="item_list_workmates_height_image">80dp</dimen>
+    <dimen name="item_list_workmates_margin_image">10dp</dimen>
+    <dimen name="item_list_workmates_margin_start_txt">20dp</dimen>
+
+    <!-- DETAILS RESTAURANT -->
+    <dimen name="details_restaurant_margin_txt">12dp</dimen>
+    <dimen name="details_restaurant_size_address">12sp</dimen>
+    <dimen name="details_restaurant_margin_image_star_1">20dp</dimen>
+    <dimen name="details_restaurant_margin_image_star_2_3">4dp</dimen>
+    <dimen name="details_restaurant_height_image_call_like">32dp</dimen>
+    <dimen name="details_restaurant_height_image_website">28dp</dimen>
+    <dimen name="details_restaurant_margin_image_orange">48dp</dimen>
+    <dimen name="details_restaurant_size_txt_orange">16sp</dimen>
+    <dimen name="details_restaurant_margin_fab">16dp</dimen>
+    <dimen name="details_restaurant_size_txt_no_restaurant">32sp</dimen>
+    <dimen name="details_restaurant_padding_txt_no_restaurant">32dp</dimen>
+
+    <!-- MAIN ACTIVITY -->
+    <dimen name="main_activity_nav_header_height">176dp</dimen>
+
+
+
+</resources>
