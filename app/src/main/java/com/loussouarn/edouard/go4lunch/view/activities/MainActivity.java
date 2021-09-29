@@ -16,36 +16,18 @@ import androidx.navigation.NavController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.loussouarn.edouard.go4lunch.R;
+import com.loussouarn.edouard.go4lunch.view.fragment.MapViewFragment;
+import com.loussouarn.edouard.go4lunch.view.fragment.RestaurantListFragment;
+import com.loussouarn.edouard.go4lunch.view.fragment.WorkmateListFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
+
+    private final MapViewFragment mapViewFragment = new MapViewFragment();
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
     private NavController navController;
     private NavigationView navigationView;
-    private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment;
-            switch (item.getItemId()) {
-                case R.id.mapViewFragment:
-                    //     loadFragment(fragmentMap);
-                    return true;
-                case R.id.listViewFragment:
-                    //   fragment = new ListViewFragment();
-                    // loadFragment(fragment);
-                    return true;
-                case R.id.workmatesListFragment:
-                    //  fragment = new WorkMateFragment();
-                    // loadFragment(fragment);
-                    return true;
-            }
-
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void configureNavigationView() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -79,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadFragment(Fragment fragment) {
-        // load fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_main_frame_layout, fragment);
         transaction.addToBackStack(null);
@@ -91,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Fragment fragment;
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_drawer_lunch:
@@ -102,6 +84,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_drawer_logout:
                 //   logOut();
                 break;
+            case R.id.mapViewFragment:
+                loadFragment(mapViewFragment);
+                return true;
+            case R.id.listViewFragment:
+                fragment = new RestaurantListFragment();
+                loadFragment(fragment);
+                return true;
+            case R.id.workmatesListFragment:
+                fragment = new WorkmateListFragment();
+                loadFragment(fragment);
         }
         this.drawerLayout.closeDrawer(GravityCompat.START);
         return true;

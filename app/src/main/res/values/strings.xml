@@ -10,7 +10,8 @@
     <string name="auth_activity_button_facebook">Sign in with Facebook</string>
     <string name="auth_activity_button_google">Sign in with Google</string>
     <string name="hello_blank_fragment" />
-    <string name="response_sign_in_success">Successfully connected</string> />
+    <string name="response_sign_in_success">Successfully connected</string>
+    />
     <string name="response_sign_in_error" />
     <string name="error_unknown_error">error unknown</string>
 
