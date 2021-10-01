@@ -14,6 +14,7 @@
 
     <color name="colorFacebook">#507CBF</color>
     <color name="colorGoogle">#DF4931</color>
+    <color name="colorTwitter">#1DA1F2</color>
 
     <color name="colorOrangeNav">#FE8B50</color>
 </resources>

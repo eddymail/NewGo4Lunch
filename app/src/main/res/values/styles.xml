@@ -63,6 +63,13 @@
         <item name="android:text">@string/auth_activity_button_google</item>
     </style>
 
+    <!-- Auth activity button TWITTER -->
+    <style name="TwitterButtonStyle" parent="BaseButtonStyle" >
+        <item name="android:background">@drawable/button_twitter</item>
+        <item name="android:drawableStart">@drawable/ic_twitter_logo</item>
+        <item name="android:text">@string/auth_activity_button_twitter</item>
+    </style>
+
     <!-- ITEM LIST RESTAURANT -->
 
     <!-- Item Restaurant List Name Txt -->

@@ -9,11 +9,11 @@
     <string name="auth_activity_subtitle">Find a nice restaurant and invite your co-workers for lunch!</string>
     <string name="auth_activity_button_facebook">Sign in with Facebook</string>
     <string name="auth_activity_button_google">Sign in with Google</string>
+    <string name="auth_activity_button_twitter">Sign in with Twitter</string>
     <string name="hello_blank_fragment" />
-    <string name="response_sign_in_success">Successfully connected</string>
-    />
-    <string name="response_sign_in_error" />
-    <string name="error_unknown_error">error unknown</string>
+    <string name="connection_succeed">successful connection</string>
+    <string name="error_authentication_canceled">authentication is canceled</string>
+    <string name="error_no_internet">no internet connection</string>
 
     <!-- Used in NavigationDrawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -71,4 +71,10 @@
 
     <!-- TOOL BAR -->
     <string name="TB_search_text">"Je cherche un resto"</string>
+    <string name="error_unknown_error">unknow error</string>
+
+    <!-- FACEBOOK -->
+        <string name="facebook_application_id">233673715444385</string>
+        <string name="fb_login_protocol_scheme">fb233673715444385</string>
+
 </resources>
