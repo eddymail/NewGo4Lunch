@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +20,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.OAuthProvider;
 import com.loussouarn.edouard.go4lunch.R;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +32,8 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
     //For data
     private final static int RC_SIGN_IN = 123;
-    private FirebaseAuth firebaseAuth;
+    private final static String USER_ID = "userId";
+
 
     //For UI
     private Button googleButton;
@@ -71,19 +75,22 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void startSignInActivityWithTwitter() {
+
+        FirebaseAuth firebaseAuth;
         firebaseAuth = FirebaseAuth.getInstance();
 
         OAuthProvider.Builder provider = OAuthProvider.newBuilder("twitter.com");
 
         Task<AuthResult> pendingResultTask = firebaseAuth.getPendingAuthResult();
         if (pendingResultTask != null) {
-            // There's something already here! Finish the sign-in for your user.
             pendingResultTask
                     .addOnSuccessListener(
                             new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
                                     showSnackBar(linearLayout, getString(R.string.connection_succeed));
+                                    createUserInFireStore();
+                                    startMainActivity();
                                 }
                             })
                     .addOnFailureListener(
@@ -96,12 +103,14 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         } else {
 
             firebaseAuth
-                    .startActivityForSignInWithProvider(/* activity= */ this, provider.build())
+                    .startActivityForSignInWithProvider(this, provider.build())
                     .addOnSuccessListener(
                             new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
                                     showSnackBar(linearLayout, getString(R.string.connection_succeed));
+                                    createUserInFireStore();
+                                    startMainActivity();
                                 }
                             })
                     .addOnFailureListener(
@@ -111,8 +120,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                                     showSnackBar(linearLayout, getString(R.string.error_authentication_canceled));
                                 }
                             });
-            // There's no pending result so you need to start the sign-in flow.
-            // See below.
         }
 
 
@@ -156,6 +163,8 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             // SUCCESS
             if (resultCode == RESULT_OK) {
                 showSnackBar(linearLayout, getString(R.string.connection_succeed));
+                createUserInFireStore();
+                startMainActivity();
             } else {
                 // ERRORS
                 if (response == null) {
@@ -171,4 +180,38 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    // User management
+
+    @Nullable
+    protected FirebaseUser getCurrentUser(){ return  FirebaseAuth.getInstance().getCurrentUser(); }
+
+    private void createUserInFireStore(){
+
+        if(getCurrentUser() != null){
+            String uId  =this.getCurrentUser().getUid();
+            String userName = this.getCurrentUser().getDisplayName();
+            String email = this.getCurrentUser().getEmail();
+            String urlPicture = (this.getCurrentUser().getPhotoUrl() != null) ? this.getCurrentUser().getPhotoUrl().toString() : null;
+
+       //     UserFirebase.createUser(uId, userName, email, urlPicture ).addOnFailureListener(this.onFailureListener());
+        }
+    }
+
+    protected OnFailureListener onFailureListener(){
+        return new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show();
+            }
+        };
+    }
+
+    // Recover the user id before launching activity
+    private void startMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(USER_ID, this.getCurrentUser().getUid());
+
+        startActivity(intent);
+        finish();
+    }
 }

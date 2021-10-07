@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.loussouarn.edouard.go4lunch">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,16 +14,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- tools:replace="android:appComponentFactory" -->
+
+        <activity android:name=".view.activities.RestaurantDetailsActivity"></activity>
         <activity android:name=".view.activities.MainActivity" />
-        <activity android:name=".view.activities.SplashActivity" />
-        <activity android:name=".view.activities.AuthActivity">
+        <activity android:name=".view.activities.AuthActivity" />
+        <activity android:name=".view.activities.SplashActivity">
+
             <intent-filter>
+                <meta-data
+                    android:name="com.google.android.geo.API_KEY"
+                    android:value="AIzaSyBiIpE2vWrjxnBBMy61WqvrMfBdO6Lh4yI" />
+
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
+        </activity>
     </application>
 
 </manifest>

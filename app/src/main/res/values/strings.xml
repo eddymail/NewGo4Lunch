@@ -22,6 +22,8 @@
     <!-- NAVIGATION HEADER -->
     <string name="navigation_header_name">Name</string>
     <string name="navigation_header_email">Email</string>
+    <string name="info_no_email_found">No email address</string>
+    <string name="info_no_username_found">No username</string>
 
     <!-- NAVIGATION DRAWER MENU -->
     <string name="navigation_drawer_your_lunch">YOUR LUNCH</string>
@@ -62,9 +64,12 @@
     <string name="list_workmates_adapter_hasnt_decided_yet">hasn\'t decided yet</string>
     <string name="list_workmates_adapter_is_joining">%s is joining !</string>
 
+    <!-- LIST CLIENT ADAPTER -->
+    <string name="list_client_adapter_is_joining">Come !</string>
+
 
     <!-- GOOGLE MAP -->
-    <string name="api_key">AIzaSyCWUct2PRBITjwO_XKeePtRNruVd2S53sQ</string>
+    <string name="api_key">AIzaSyBiIpE2vWrjxnBBMy61WqvrMfBdO6Lh4yI</string>
     <string name="bottom_navigation_menu_list_view">List View</string>
     <string name="bottom_navigation_menu_map_view">Map View</string>
     <string name="faim">J\'ai faim!</string>
@@ -74,7 +79,9 @@
     <string name="error_unknown_error">unknow error</string>
 
     <!-- FACEBOOK -->
-        <string name="facebook_application_id">233673715444385</string>
-        <string name="fb_login_protocol_scheme">fb233673715444385</string>
+    <string name="facebook_application_id">233673715444385</string>
+    <string name="fb_login_protocol_scheme">fb233673715444385</string>
+
+
 
 </resources>
