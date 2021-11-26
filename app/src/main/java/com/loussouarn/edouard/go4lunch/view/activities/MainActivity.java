@@ -58,14 +58,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private final static String USER_ID = "userId";
-    private static final int AUTOCOMPLETE_REQUEST_CODE = 1;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
+    private static final int AUTOCOMPLETE_REQUEST_CODE = 123;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 456;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+
     private final MapFragment mapFragment = new MapFragment();
     private boolean locationPermissionGranted = false;
-    private final static String PLACE_ID_RESTAURANT = "restaurant_place_id";
+    private String placeIdRestaurant = "restaurant_place_id";
     private PlacesClient placesClient;
     private GpsTracker gpsTracker;
     private Context context;
@@ -73,10 +73,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
-    private NavController navController;
     private NavigationView navigationView;
-    private String uId;
-    private User currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,10 +85,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureDrawerLayout();
         configureNavigationView();
 
-        getUserById();
+        updateNavigationHeader();
         initializePlaces();
-
         getLocationPermission();
+
+        loadFragment(new MapFragment());
 
         context = this;
 
@@ -119,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the toolbar menu
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
     }
@@ -130,11 +128,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.menu_activity_main_search:
 
-                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.TYPES);
                 // Define the region
                 RectangularBounds bounds = RectangularBounds.newInstance(
-                        new LatLng(gpsTracker.getLocation().getLatitude() - 0.01, gpsTracker.getLocation().getLongitude() - 0.01),
-                        new LatLng(gpsTracker.getLocation().getLatitude() + 0.01, gpsTracker.getLocation().getLongitude() + 0.01));
+                        new LatLng(getLocation().getLatitude() - 0.01, getLocation().getLongitude() - 0.01),
+                        new LatLng(getLocation().getLatitude() + 0.01, getLocation().getLongitude() + 0.01));
                 // Start the autocomplete intent.
                 Intent intent = new Autocomplete.IntentBuilder(
                         AutocompleteActivityMode.OVERLAY, fields)
@@ -149,25 +147,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Place place = Autocomplete.getPlaceFromIntent(data);
-                Intent intent = new Intent(this, RestaurantDetailsActivity.class);
-                intent.putExtra(PLACE_ID_RESTAURANT, place.getId());
-                startActivity(intent);
-                Log.i("PLACE", "Place: " + place.getName() + ", " + place.getId());
-            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                Status status = Autocomplete.getStatusFromIntent(data);
-                Log.i("STATUS", status.getStatusMessage());
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
-            }
-            return;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -178,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startDetailActivity();
                 break;
             case R.id.menu_drawer_settings:
-
+                startSettingsActivity();
                 break;
 
             case R.id.menu_drawer_logout:
@@ -213,39 +192,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
-    private void getUserById() {
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            uId = String.valueOf(extras.getLong(USER_ID, -1));
-            UserFirebase.getUser(uId).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    currentUser = documentSnapshot.toObject(User.class);
-                    updateNavigationHeader(currentUser);
-                }
-            });
 
-        }
-    }
-
-    private void updateNavigationHeader(User currentUser) {
+    private void updateNavigationHeader() {
         if (getCurrentUser() != null) {
             final View headerView = navigationView.getHeaderView(0);
+
             TextView name = headerView.findViewById(R.id.nav_header_name_txt);
             TextView email = headerView.findViewById(R.id.nav_header_email_txt);
             ImageView illustrationUser = headerView.findViewById(R.id.nav_header_image_view);
-            name.setText(currentUser.getUserName());
-            email.setText(currentUser.getUserEmail());
-            if (currentUser.getUrlPicture() != null) {
+
+            email.setText(getCurrentUser().getEmail());
+            if (getCurrentUser().getPhotoUrl() != null) {
                 Glide.with(this)
-                        .load(currentUser.getUrlPicture())
+                        .load(getCurrentUser().getPhotoUrl())
                         .circleCrop()
                         .into(illustrationUser);
             }
-            name.setText(getString(R.string.info_no_email_found));
-            email.setText(getString(R.string.info_no_username_found));
+            if (getCurrentUser().getDisplayName() != null) {
+                name.setText(getCurrentUser().getDisplayName());
+            } else {
+                name.setText(getString(R.string.info_no_username_found));
+            }
+
+            if (getCurrentUser().getEmail() != null) {
+                email.setText((getCurrentUser().getEmail()));
+            } else {
+                email.setText(getString(R.string.info_no_email_found));
+            }
         }
     }
+
+    // onNavigationItemSelected methods
 
     private void startDetailActivity() {
         String userId = UserFirebase.getCurrentUserId();
@@ -260,12 +237,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Toast.makeText(context, R.string.main_activity_no_choose_restaurant, Toast.LENGTH_LONG).show();
                     } else {
                         Intent intent = new Intent(context, RestaurantDetailsActivity.class);
-                        intent.putExtra(PLACE_ID_RESTAURANT, lunch);
+                        intent.putExtra(placeIdRestaurant, lunch);
                         startActivity(intent);
                     }
                 }
             }
         });
+    }
+
+    private void startSettingsActivity() {
+        Intent intent = new Intent(context, SettingsActivity.class);
+        startActivity(intent);
     }
 
     private void logOut() {
@@ -289,7 +271,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         placesClient = Places.createClient(this);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                Intent intent = new Intent(this, RestaurantDetailsActivity.class);
+                intent.putExtra(placeIdRestaurant, place.getId());
+                startActivity(intent);
+                Log.e("Test", "Place: " + place.getName() + ", " + place.getId());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.e("STATUS", status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     // Permissions
+
     public void getLocationPermission() {
         FusedLocationProviderClient mFusedLocationProviderClient;
         //getLocationPermission: getting location permissions
@@ -304,6 +308,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
         }
+    }
+
+    public GpsTracker getLocation() {
+        gpsTracker = new GpsTracker(this);
+        if (gpsTracker.canGetLocation()) {
+        } else {
+            gpsTracker.showSettingsAlert();
+        }
+        return gpsTracker;
     }
 
     @Override
@@ -331,7 +344,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        // 5 - Handle back click to close menu
+        // Handle back click to close menu
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {

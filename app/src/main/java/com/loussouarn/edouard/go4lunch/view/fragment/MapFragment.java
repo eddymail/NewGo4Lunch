@@ -4,16 +4,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -51,17 +50,17 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-    private View mapView;
     private final static String PLACE_ID_RESTAURANT = "restaurant_place_id";
-
     private final static String TAG = "MapsFragment";
     private static final float DEFAULT_ZOOM = 16f;
-
     private FloatingActionButton locationButton;
-    private String today;
     private GpsTracker gpsTracker;
-    private Marker myMarker;
-    private GoogleMap map;
+    private Marker marker;
+    private GoogleMap googleMap;
+    private String restaurantName;
+    private String restaurantPlaceId;
+    private boolean isMapReady = false;
+    private boolean isStarted = false;
 
 
     public MapFragment() {
@@ -72,6 +71,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.isStarted = true;
+        initMapForMarkers();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        this.isStarted = false;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,7 +103,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void initMap() {
         MapView mapView;
-        mapView = this.mapView.findViewById(R.id.map);
+        mapView = getView().findViewById(R.id.map);
 
         if (mapView != null) {
             mapView.onCreate(null);
@@ -102,15 +115,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-        map.getUiSettings().setMyLocationButtonEnabled(false);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(getLocation().getLatitude(), getLocation().getLongitude()), DEFAULT_ZOOM));
+        this.googleMap = googleMap;
+        this.isMapReady = true;
+        initMapForMarkers();
+    }
 
+    private void initMapForMarkers() {
+        if(isMapReady && isStarted){
+            this.googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+            this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(getLocation().getLatitude(), getLocation().getLongitude()), DEFAULT_ZOOM));
+            setMarker();
+            init();
+        }
+    }
+
+    private void setMarker() {
         PlacesClient placesClient = Places.createClient(getActivity());
-
-        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID,Place.Field.NAME, Place.Field.LAT_LNG);
-
+        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
         FindCurrentPlaceRequest request = FindCurrentPlaceRequest.newInstance(placeFields);
+
         if (ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Task<FindCurrentPlaceResponse> placeResult = placesClient.findCurrentPlace(request);
             placeResult.addOnCompleteListener(new OnCompleteListener<FindCurrentPlaceResponse>() {
@@ -120,32 +143,46 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         FindCurrentPlaceResponse likelyPlaces = task.getResult();
 
                         for (int i = 0; i < likelyPlaces.getPlaceLikelihoods().size(); i++) {
+
                             PlaceLikelihood place = likelyPlaces.getPlaceLikelihoods().get(i);
-                            String restaurantName = place.getPlace().getName();
-                            String restaurantPlaceId = place.getPlace().getId();
+
+                            // List<Place.Type> type = place.getPlace().getTypes();
+
+                            // Log.e("Test", " Place Type : " + type);
+                            // TODO Verifier condition type.RESTAURANT
+
+                            /*    if (type != null && type.contains(Place.Type.RESTAURANT)) {*/
+
+                            restaurantName = place.getPlace().getName();
+                            restaurantPlaceId = place.getPlace().getId();
 
                             final MarkerOptions markerOptions = new MarkerOptions();
 
                             RestaurantFirebase.getRestaurant(place.getPlace().getId()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    if (documentSnapshot.exists()){
+                                    if (documentSnapshot.exists()) {
+                                       // Log.e("Test", "MAPFRAGMENT onSuccess");
                                         Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
                                         Date dateRestaurantSheet;
                                         if (restaurant != null) {
                                             dateRestaurantSheet = restaurant.getDateCreated();
                                             DateFormat myDate = new DateFormat();
+                                            DateFormat forToday = new DateFormat();
+                                            final String today = forToday.getTodayDate();
                                             String dateRegistered = myDate.getRegisteredDate(dateRestaurantSheet);
+                                          //  Log.e("Test", "Condition - today = "+ today + " dateRegistred = " + dateRegistered);
 
                                             if (dateRegistered.equals(today)) {
+                                             //   Log.e("Test", "Repere vert - today = "+ today + " dateRegistred = " + dateRegistered);
                                                 int users = restaurant.getClientsTodayList().size();
                                                 if (users > 0) {
                                                     markerOptions.position(place.getPlace().getLatLng())
                                                             .title(restaurantName)
-                                                            .snippet(restaurantPlaceId)
+                                                            // .snippet(restaurantPlaceId)
                                                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                                                    myMarker = map.addMarker(markerOptions);
-                                                    myMarker.setTag(0);
+                                                    marker = MapFragment.this.googleMap.addMarker(markerOptions);
+                                                    marker.setTag(restaurantPlaceId);
                                                 }
                                             }
                                         }
@@ -155,19 +192,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                             markerOptions.position(place.getPlace().getLatLng())
                                     .title(restaurantName)
-                                    .snippet(restaurantPlaceId)
+                                    //  .snippet(restaurantPlaceId)
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                            myMarker = map.addMarker(markerOptions);
-                            myMarker.setTag(0);
+                            marker = MapFragment.this.googleMap.addMarker(markerOptions);
+                            marker.setTag(restaurantPlaceId);
 
-                            map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            MapFragment.this.googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                                 @Override
                                 public void onInfoWindowClick(Marker marker) {
-                                    lunchRestaurantDetailsActivity(marker.getSnippet());
+                                    lunchRestaurantDetailsActivity(marker.getTag().toString());
                                 }
                             });
+                            /* }*/
                         }
-
                     } else {
                         Log.e(TAG, "Exception: %s", task.getException());
                     }
@@ -175,7 +212,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             });
         }
         try {
-            boolean success = map.setMapStyle(
+            boolean success = this.googleMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.style_json));
 
             if (!success) {
@@ -184,13 +221,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         } catch (Resources.NotFoundException e) {
             Log.e(TAG, "Can't find style. Error: ", e);
         }
-        init();
     }
 
-    private GpsTracker getLocation(){
+    private GpsTracker getLocation() {
         gpsTracker = new GpsTracker(getContext());
-        if(gpsTracker.canGetLocation()){
-        }else{
+        if (gpsTracker.canGetLocation()) {
+        } else {
             gpsTracker.showSettingsAlert();
         }
         return gpsTracker;
@@ -201,14 +237,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(getLocation().getLatitude(), getLocation().getLongitude()), DEFAULT_ZOOM));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(getLocation().getLatitude(), getLocation().getLongitude()), DEFAULT_ZOOM));
             }
         });
     }
 
-    private void lunchRestaurantDetailsActivity(String id) {
+    private void lunchRestaurantDetailsActivity(String restaurantPlaceId) {
         Intent intent = new Intent(getContext(), RestaurantDetailsActivity.class);
-        intent.putExtra(PLACE_ID_RESTAURANT, id);
+        intent.putExtra(PLACE_ID_RESTAURANT, restaurantPlaceId);
         startActivity(intent);
     }
 

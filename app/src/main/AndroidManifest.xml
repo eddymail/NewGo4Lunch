@@ -14,24 +14,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.activities.SettingsActivity"></activity>
 
-        <!-- tools:replace="android:appComponentFactory" -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBiIpE2vWrjxnBBMy61WqvrMfBdO6Lh4yI" />
 
-        <activity android:name=".view.activities.RestaurantDetailsActivity"></activity>
+        <!-- NOTIFICATION SERVICE -->
+        <service
+            android:name=".utils.NotificationService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <activity android:name=".view.activities.RestaurantDetailsActivity" />
         <activity android:name=".view.activities.MainActivity" />
         <activity android:name=".view.activities.AuthActivity" />
         <activity android:name=".view.activities.SplashActivity">
-
             <intent-filter>
-                <meta-data
-                    android:name="com.google.android.geo.API_KEY"
-                    android:value="AIzaSyBiIpE2vWrjxnBBMy61WqvrMfBdO6Lh4yI" />
-
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 

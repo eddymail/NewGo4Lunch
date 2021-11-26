@@ -7,13 +7,13 @@
     android:orientation="horizontal"
     tools:context=".view.fragment.MapFragment">
 
-    <fragment
+    <com.google.android.gms.maps.MapView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="34dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:context=".MapsFragment">
+    </com.google.android.gms.maps.MapView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_gps_location"
@@ -21,12 +21,12 @@
         android:layout_height="56dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="104dp"
         android:backgroundTint="@color/colorAccentWhite"
         android:src="@drawable/ic_baseline_gps_fixed_24"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintHorizontal_bias="0.905"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

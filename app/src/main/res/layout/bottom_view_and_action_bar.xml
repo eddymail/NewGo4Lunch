@@ -27,7 +27,7 @@
                 android:background="@color/colorPrimary"
                 app:titleTextColor="@color/colorAccentWhite"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="@string/faim"/>
+                app:title="@string/Tool_bar_title"/>
 
         </com.google.android.material.appbar.AppBarLayout>
     </FrameLayout>

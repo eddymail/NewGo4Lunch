@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.activities.RestaurantDetailsActivity">
@@ -18,7 +19,8 @@
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"        app:layout_constraintGuide_percent="0.500684" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.500684" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -46,20 +48,20 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/colorAccentWhite"
         android:clickable="true"
+        android:src="@drawable/ic_not_go_restaurant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_not_go_restaurant" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2">
+        app:layout_constraintTop_toBottomOf="@+id/guideline">
 
         <TextView
             android:id="@+id/details_name_txt"
@@ -79,9 +81,9 @@
             android:text="@string/details_restaurant_address"
             android:textColor="@color/colorAccentWhite"
             android:textSize="@dimen/details_restaurant_size_address"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/details_name_txt"
-            app:layout_constraintTop_toBottomOf="@id/details_name_txt"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/details_name_txt" />
 
         <ImageView
             android:id="@+id/details_star_1_image"
@@ -125,25 +127,24 @@
         android:id="@+id/details_call_button"
         android:layout_width="0dp"
         android:layout_height="@dimen/details_restaurant_height_image_call_like"
-        app:layout_constraintDimensionRatio="1:1"
-        android:src="@drawable/ic_call_black_24dp"
+        android:layout_marginStart="@dimen/details_restaurant_margin_image_orange"
         android:background="@color/fui_transparent"
-        app:layout_constraintTop_toBottomOf="@id/guideline2"
+        android:src="@drawable/ic_call_black_24dp"
         app:layout_constraintBottom_toBottomOf="@id/guideline3"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="@dimen/details_restaurant_margin_image_orange"/>
+        app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <ImageButton
         android:id="@+id/details_like_button"
         android:layout_width="0dp"
         android:layout_height="@dimen/details_restaurant_height_image_call_like"
-        app:layout_constraintDimensionRatio="1:1"
-        android:src="@drawable/ic_star_orange_24dp"
         android:background="@color/fui_transparent"
-        app:layout_constraintTop_toTopOf="@id/details_call_button"
-        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/ic_star_orange_24dp"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/details_call_button" />
 
     <ImageButton
         android:id="@+id/details_website_button"
@@ -159,14 +160,14 @@
 
     <TextView
         android:id="@+id/details_call_txt"
+        style="@style/details_txt_orange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/details_restaurant_call"
-        style="@style/details_txt_orange"
-        app:layout_constraintTop_toBottomOf="@id/details_call_button"
         app:layout_constraintBottom_toBottomOf="@id/guideline3"
+        app:layout_constraintEnd_toEndOf="@id/details_call_button"
         app:layout_constraintStart_toStartOf="@id/details_call_button"
-        app:layout_constraintEnd_toEndOf="@id/details_call_button" />
+        app:layout_constraintTop_toBottomOf="@id/details_call_button" />
 
     <TextView
         android:id="@+id/details_like_txt"
@@ -180,13 +181,13 @@
 
     <TextView
         android:id="@+id/details_website_txt"
+        style="@style/details_txt_orange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/details_restaurant_website"
-        style="@style/details_txt_orange"
-        app:layout_constraintTop_toTopOf="@id/details_call_txt"
+        app:layout_constraintEnd_toEndOf="@id/details_website_button"
         app:layout_constraintStart_toStartOf="@id/details_website_button"
-        app:layout_constraintEnd_toEndOf="@id/details_website_button" />
+        app:layout_constraintTop_toTopOf="@id/details_call_txt" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/details_restaurant_recyclerview"

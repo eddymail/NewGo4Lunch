@@ -14,10 +14,16 @@ public class User {
     private String restaurantChoiceDate;
     @Nullable
     private String urlPicture;
-    private List<String> restaurantLike;
+    private List<String> restaurantsLike;
 
 
     public User() { }
+
+    public User(String userName, String userEmail, @Nullable String urlPicture) {
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.urlPicture = urlPicture;
+    }
 
     public User(String uid, String userName, String userEmail, String urlPicture) {
         this.uid = uid;
@@ -27,7 +33,7 @@ public class User {
         this.restaurantOfTheDayName = "";
         this.restaurantChoiceDate = "";
         this.urlPicture = urlPicture;
-        this.restaurantLike = new ArrayList<>();
+        this.restaurantsLike = new ArrayList<>();
 
     }
 
@@ -39,7 +45,7 @@ public class User {
     public String getRestaurantOfTheDayName() {return restaurantOfTheDayName;}
     public String getRestaurantChoiceDate() {return restaurantChoiceDate;}
     public String getUrlPicture() { return urlPicture; }
-    public List<String> getRestaurantLike() { return restaurantLike; }
+    public List<String> getRestaurantsLike() { return restaurantsLike; }
 
     // --- SETTERS ---
     public void setUid(String uid) { this.uid = uid; }
@@ -49,5 +55,5 @@ public class User {
     public void setRestaurantOfTheDayName(String restaurantOfTheDayName) {this.restaurantOfTheDayName = restaurantOfTheDayName;}
     public void setRestaurantChoiceDate(String restaurantChoiceDate) {this.restaurantChoiceDate = restaurantChoiceDate;}
     public void setUrlPicture(String urlPicture) { this.urlPicture = urlPicture; }
-    public void setRestaurantLike(List<String> restaurantLike) {this.restaurantLike = restaurantLike;}
+    public void setRestaurantsLike(List<String> restaurantsLike) {this.restaurantsLike = restaurantsLike;}
 }

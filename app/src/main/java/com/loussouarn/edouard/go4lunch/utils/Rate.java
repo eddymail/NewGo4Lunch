@@ -6,21 +6,12 @@ import android.widget.ImageView;
 public class Rate {
 
     // No star under 2.5, 1 star between 2.6 and 3.5, 2 stars between 3.6 and 4.5, and 3 stars above
-
     public Rate(double rate, ImageView star1, ImageView star2, ImageView star3) {
         int rate_int = (int) Math.round(rate);
 
         switch (rate_int) {
             case 0:
-                star1.setVisibility(View.GONE);
-                star2.setVisibility(View.GONE);
-                star3.setVisibility(View.GONE);
-                break;
             case 1:
-                star1.setVisibility(View.GONE);
-                star2.setVisibility(View.GONE);
-                star3.setVisibility(View.GONE);
-                break;
             case 2:
                 star1.setVisibility(View.GONE);
                 star2.setVisibility(View.GONE);

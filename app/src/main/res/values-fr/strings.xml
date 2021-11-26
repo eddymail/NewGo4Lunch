@@ -1,0 +1,97 @@
+<resources>
+    <string name="app_name">Go4Lunch</string>
+
+    <!-- MAIN ACTIVITY -->
+    <string name="main_activity_no_choose_restaurant">Vous n\'avez pas sélectionné de restaurant</string>
+    <string name="main_activity_success_log_out">Vous avez été déconnecté</string>
+
+    <!-- AUTH ACTIVITY -->
+    <string name="auth_activity_subtitle">Trouvez un bon restaurant et invitez vos collègues à déjeuner !</string>
+    <string name="auth_activity_button_facebook">Se connecter avec Facebook</string>
+    <string name="auth_activity_button_google">Se connecter avecGoogle</string>
+    <string name="auth_activity_button_twitter">Se connecter avec Twitter</string>
+    <string name="hello_blank_fragment" />
+    <string name="connection_succeed">connexion réussie</string>
+    <string name="error_authentication_canceled">authentication annulée</string>
+    <string name="error_no_internet">pas de connection internet</string>
+
+    <!-- Used in NavigationDrawer -->
+    <string name="navigation_drawer_open">Ouvrir navigation drawer</string>
+    <string name="navigation_drawer_close">Fermer navigation drawer</string>
+
+    <!-- NAVIGATION HEADER -->
+    <string name="navigation_header_name">Nom</string>
+    <string name="navigation_header_email">Email</string>
+    <string name="info_no_email_found">Pas d\'adresse mail</string>
+    <string name="info_no_username_found">Pas de nom</string>
+
+    <!-- NAVIGATION DRAWER MENU -->
+    <string name="navigation_drawer_your_lunch">VOTRE CHOIX</string>
+    <string name="navigation_drawer_settings">PARAMETRES</string>
+    <string name="navigation_drawer_logout">DECONNEXION</string>
+
+    <!-- BOTTOM NAVIGATION VIEW -->
+    <string name="bottom_navigation_menu_mapview">Carte</string>
+    <string name="bottom_navigation_menu_listview">Liste</string>
+    <string name="bottom_navigation_menu_workmates">Collègues</string>
+
+    <!-- ITEM LIST RESTAURANTS -->
+    <string name="item_restaurant_name">Restaurant</string>
+    <string name="item_restaurant_address">Adresse</string>
+    <string name="item_restaurant_hours">Houraires</string>
+    <string name="item_restaurant_distance">Distance</string>
+    <string name="item_restaurant_number_rating">(1)</string>
+    <string name="list_restaurants_open_now">Ouvert</string>
+    <string name="list_restaurants_close_now">Fermé actuellement</string>
+    <string name="list_restaurants_closed">Fermé</string>
+    <string name="list_restaurants_open_at">"Ouvre à"</string>
+    <string name="list_restaurants_open_until">"Ouvert depuis "</string>
+    <string name="list_restaurants_no_hours">"Horaires non disponible."</string>
+
+    <!-- DETAILS RESTAURANT -->
+    <string name="details_restaurant_name">Restaurant</string>
+    <string name="details_restaurant_address">Adresse</string>
+    <string name="details_restaurant_call">APPELER</string>
+    <string name="details_restaurant_like">LIKER</string>
+    <string name="details_restaurant_website">SITE</string>
+    <string name="details_restaurant_choose_for_lunch">Votre choix !</string>
+    <string name="details_restaurant_no_longer_choose_for_lunch">ce n\'est plus votre choix !</string>
+    <string name="details_restaurant_added_favorites">Ajouter aux favories !</string>
+    <string name="details_restaurant_removed_favorites">Enlever des favories !</string>
+    <string name="details_restaurant_no_website">Ce restaurant n\'a pas de site </string>
+    <string name="details_restaurant_no_phone">Ce restaurant n\'a pas de numéro</string>
+    <string name="details_restaurant_not_restaurant">Ce n\'est pas un restaurant !</string>
+
+    <!-- LIST WORKMATES ADAPTER -->
+    <string name="list_workmates_adapter_decided">"\ mange à ce restaurant: "</string>
+    <string name="list_workmates_adapter_hasnt_decided_yet">\ n\'a pas encore choisi</string>
+    <string name="list_workmates_adapter_is_joining">%s nous rejoint !</string>
+    <string name="list_workmates_adapter_no_lunch">Vous n\'avez pas encore choisi !</string>
+
+    <!-- LIST CLIENT ADAPTER -->
+    <string name="list_client_adapter_is_joining">\ Viens !</string>
+
+
+    <!-- GOOGLE MAP -->
+    <string name="api_key">AIzaSyBiIpE2vWrjxnBBMy61WqvrMfBdO6Lh4yI</string>
+    <string name="bottom_navigation_menu_list_view">Liste</string>
+    <string name="bottom_navigation_menu_map_view">Carte</string>
+
+    <!-- TOOL BAR -->
+    <string name="Tool_bar_search_text">"Je cherche un restaurant"</string>
+    <string name="Tool_bar_error_unknown_error">erreur inconnue</string>
+    <string name="Tool_bar_title">J\'ai faim !</string>
+
+    <!-- FACEBOOK -->
+    <string name="facebook_application_id">233673715444385</string>
+    <string name="fb_login_protocol_scheme">fb233673715444385</string>
+
+
+    <string name="default_notification_channel_id">fcm_default_channel</string>
+    <string name="notification_message_workmates">"vous allez manger avec: "</string>
+    <string name="notification_title">Vous havez reçu une notification</string>
+    <string name="notification_message_today_restaurant">"Aujourdh'ui vous allez manger avec: "</string>
+    <string name="notifications_onoff">"Souhaitez-vous recevoir une notification signalant les collègues qui vous rejoindront?"</string>
+
+
+</resources>

@@ -1,66 +1,99 @@
 package com.loussouarn.edouard.go4lunch.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.loussouarn.edouard.go4lunch.R;
+import com.loussouarn.edouard.go4lunch.api.UserFirebase;
+import com.loussouarn.edouard.go4lunch.model.User;
+import com.loussouarn.edouard.go4lunch.view.activities.RestaurantDetailsActivity;
+import com.loussouarn.edouard.go4lunch.view.adapter.WorkmateListAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WorkmateListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class WorkmateListFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private final static String PLACE_ID = "restaurant_place_id";
+    private RecyclerView recyclerView;
+    private WorkmateListAdapter adapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public WorkmateListFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment WorkmatesListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static WorkmateListFragment newInstance(String param1, String param2) {
-        WorkmateListFragment fragment = new WorkmateListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_workmates_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_workmates_list, container, false);
+        recyclerView = v.findViewById(R.id.workmate_list);
+
+        configureRecyclerview();
+
+        return v;
+    }
+
+    private void configureRecyclerview() {
+
+        Query allUsers = UserFirebase.getAllUsers();
+
+        FirestoreRecyclerOptions<User> options = new FirestoreRecyclerOptions.Builder<User>()
+                .setQuery(allUsers, User.class)
+                .build();
+
+        adapter = new WorkmateListAdapter(options, Glide.with(recyclerView));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new WorkmateListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                if (documentSnapshot.exists()) {
+                    User user = documentSnapshot.toObject(User.class);
+                    String restaurantId;
+                    if (user != null) {
+                        restaurantId = user.getRestaurantOfTheDay();
+                       // Log.e("Test", "WorkmateFRAGMENT user = "+ user + " restaurantId = " + restaurantId);
+                        if (restaurantId.length() > 1) {
+                            Intent intent = new Intent(getContext(), RestaurantDetailsActivity.class);
+                            intent.putExtra(PLACE_ID, restaurantId);
+                          //  Log.e("Test", "WorkMatFragment RestaurantId" + restaurantId);
+                            startActivity(intent);
+                        } else
+                            Toast.makeText(getContext(), R.string.list_workmates_adapter_no_lunch, Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }

@@ -43,6 +43,10 @@
     <string name="item_restaurant_number_rating">(1)</string>
     <string name="list_restaurants_open_now">Open now</string>
     <string name="list_restaurants_close_now">Close now</string>
+    <string name="list_restaurants_closed">Closed</string>
+    <string name="list_restaurants_open_at">"Open at"</string>
+    <string name="list_restaurants_open_until">"Open until "</string>
+    <string name="list_restaurants_no_hours">"Working hours are not available."</string>
 
     <!-- DETAILS RESTAURANT -->
     <string name="details_restaurant_name">Restaurant</string>
@@ -54,34 +58,40 @@
     <string name="details_restaurant_no_longer_choose_for_lunch">Is no longer your choice !</string>
     <string name="details_restaurant_added_favorites">Add to your favorites !</string>
     <string name="details_restaurant_removed_favorites">Removed from your favorites !</string>
-    <string name="details_restaurant_website_no_application_found">No corresponding application found</string>
     <string name="details_restaurant_no_website">This restaurant does not have a website</string>
     <string name="details_restaurant_no_phone">This restaurant does not have a phone number</string>
+    <string name="details_restaurant_not_restaurant">This is not a restaurant !</string>
 
     <!-- LIST WORKMATES ADAPTER -->
-    <string name="list_workmates_adapter_is_eating">is eating (</string>
-    <string name="list_workmates_adapter_parenthesis">)</string>
-    <string name="list_workmates_adapter_hasnt_decided_yet">hasn\'t decided yet</string>
+    <string name="list_workmates_adapter_decided">"\ eat at this restaurant: "</string>
+    <string name="list_workmates_adapter_hasnt_decided_yet">\ hasn\'t decided yet</string>
     <string name="list_workmates_adapter_is_joining">%s is joining !</string>
+    <string name="list_workmates_adapter_no_lunch">You haven\'t chosen a restaurant yet!</string>
 
     <!-- LIST CLIENT ADAPTER -->
-    <string name="list_client_adapter_is_joining">Come !</string>
+    <string name="list_client_adapter_is_joining">\ Come !</string>
 
 
     <!-- GOOGLE MAP -->
     <string name="api_key">AIzaSyBiIpE2vWrjxnBBMy61WqvrMfBdO6Lh4yI</string>
     <string name="bottom_navigation_menu_list_view">List View</string>
     <string name="bottom_navigation_menu_map_view">Map View</string>
-    <string name="faim">J\'ai faim!</string>
 
     <!-- TOOL BAR -->
-    <string name="TB_search_text">"Je cherche un resto"</string>
-    <string name="error_unknown_error">unknow error</string>
+    <string name="Tool_bar_search_text">"I looking for a restaurant"</string>
+    <string name="Tool_bar_error_unknown_error">unknown error</string>
+    <string name="Tool_bar_title">I\'m hungry</string>
 
     <!-- FACEBOOK -->
     <string name="facebook_application_id">233673715444385</string>
     <string name="fb_login_protocol_scheme">fb233673715444385</string>
 
+
+    <string name="default_notification_channel_id">fcm_default_channel</string>
+    <string name="notification_message_workmates">"you will eat with:  "</string>
+    <string name="notification_title">You have received a notification</string>
+    <string name="notification_message_today_restaurant">"Today your meal break will be at: "</string>
+    <string name="notifications_onoff">"Would you like to receive a notification flagging workmates who will join you?"</string>
 
 
 </resources>

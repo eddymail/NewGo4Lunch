@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_baseline_search"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:title="@string/TB_search_text">
+        android:title="@string/Tool_bar_title">
     </item>
 
 </menu>

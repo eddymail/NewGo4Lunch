@@ -3,7 +3,6 @@ package com.loussouarn.edouard.go4lunch.view.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +50,7 @@ public class SplashActivity extends AppCompatActivity {
     @Nullable
     protected FirebaseUser getCurrentUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
+
     }
 
     protected Boolean isCurrentUserLogged() {

@@ -11,6 +11,8 @@
     <color name="colorAccentDark">#000000</color>
     <color name="colorAccentGrey">#747474</color>
     <color name="colorLightGrey">#979595</color>
+    <color name="colorGreen">#4CAF50</color>
+    <color name="colorGrey">#BCAAA4</color>
 
     <color name="colorFacebook">#507CBF</color>
     <color name="colorGoogle">#DF4931</color>

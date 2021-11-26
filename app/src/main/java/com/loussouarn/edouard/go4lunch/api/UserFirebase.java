@@ -15,7 +15,6 @@ import java.util.Objects;
 
 public class UserFirebase {
     private static final String COLLECTION_NAME = "users";
-    private static final String TAG = "USERHELPER";
 
     // --- COLLECTION REFERENCE ---
     public static CollectionReference getUsersCollection(){
@@ -26,7 +25,6 @@ public class UserFirebase {
     // --- CREATE ---
     public static Task<Void> createUser(String uid, String username, String userEmail, String urlPicture) {
         User userToCreate = new User(uid, username, userEmail, urlPicture);
-        Log.d(TAG, "createUser: " + username + " - " + userEmail);
         return UserFirebase.getUsersCollection().document(uid).set(userToCreate);
     }
 
