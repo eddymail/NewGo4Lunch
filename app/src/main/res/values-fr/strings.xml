@@ -73,10 +73,10 @@
 
 
     <!-- GOOGLE MAP -->
-    <string name="api_key">AIzaSyBiIpE2vWrjxnBBMy61WqvrMfBdO6Lh4yI</string>
+    <string name="api_maps_key">AIzaSyAPGMoli1adgZDCo74zLcTHJYA2O0LmECc</string>
+    <string name="api_place_key">AIzaSyBiIpE2vWrjxnBBMy61WqvrMfBdO6Lh4yI</string>
     <string name="bottom_navigation_menu_list_view">Liste</string>
     <string name="bottom_navigation_menu_map_view">Carte</string>
-
     <!-- TOOL BAR -->
     <string name="Tool_bar_search_text">"Je cherche un restaurant"</string>
     <string name="Tool_bar_error_unknown_error">erreur inconnue</string>

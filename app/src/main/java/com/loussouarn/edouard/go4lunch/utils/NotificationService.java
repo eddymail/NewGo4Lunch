@@ -37,7 +37,7 @@ public class NotificationService extends FirebaseMessagingService {
     private String restaurantOfTheDayAddress;
     private List<String> listUserId = new ArrayList<>();
     private String listNames = "";
-    private boolean notificationsOk;
+    private boolean notificationsIsOk;
 
 
     @Override
@@ -52,7 +52,7 @@ public class NotificationService extends FirebaseMessagingService {
         }
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        notificationsOk = sharedPreferences.getBoolean(NOTIFICATIONS_PREFS, true);
+        notificationsIsOk = sharedPreferences.getBoolean(NOTIFICATIONS_PREFS, true);
         userId = UserFirebase.getCurrentUserId();
 
         // Check if the user wants to receive notifications
@@ -61,7 +61,6 @@ public class NotificationService extends FirebaseMessagingService {
 
 
     private void checkIfNotificationOfTheDay() {
-        Log.e(TAG, "checkIfNotificationToday");
         DateFormat forToday = new DateFormat();
         final String today = forToday.getTodayDate();
 
@@ -74,7 +73,7 @@ public class NotificationService extends FirebaseMessagingService {
                 if (user != null) {
                     restaurantOfTheDay = user.getRestaurantOfTheDay();
                     String registeredDate = user.getRestaurantChoiceDate();
-                    if (!restaurantOfTheDay.isEmpty() && registeredDate.equals(today) && notificationsOk) {
+                    if (!restaurantOfTheDay.isEmpty() && registeredDate.equals(today) && notificationsIsOk) {
                         showNotification();
                     }
                 }
@@ -83,7 +82,6 @@ public class NotificationService extends FirebaseMessagingService {
     }
 
     private void showNotification() {
-
         UserFirebase.getUser(userId).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -91,7 +89,6 @@ public class NotificationService extends FirebaseMessagingService {
                 if (user != null) {
                     restaurantOfTheDayId = user.getRestaurantOfTheDay();
                 }
-
                 RestaurantFirebase.getRestaurant(restaurantOfTheDayId).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -102,7 +99,6 @@ public class NotificationService extends FirebaseMessagingService {
                             //Recover the workmates list who have chosen this restaurant
                             listUserId = restaurant.getClientsTodayList();
                         }
-
                         for (int i = 0; i < listUserId.size(); i++) {
                             UserFirebase.getUser(listUserId.get(i)).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
@@ -131,7 +127,6 @@ public class NotificationService extends FirebaseMessagingService {
     }
 
     private void sendVisualNotification(String restaurantName, String address, String colleagues) {
-        Log.e(TAG, "sendVisualNotification");
         //  Create an Intent that will be shown when user will click on the Notification
         Intent intent = new Intent(this, AuthActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);

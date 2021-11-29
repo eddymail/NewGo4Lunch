@@ -70,11 +70,9 @@ public class WorkmateListFragment extends Fragment {
                     String restaurantId;
                     if (user != null) {
                         restaurantId = user.getRestaurantOfTheDay();
-                       // Log.e("Test", "WorkmateFRAGMENT user = "+ user + " restaurantId = " + restaurantId);
                         if (restaurantId.length() > 1) {
                             Intent intent = new Intent(getContext(), RestaurantDetailsActivity.class);
                             intent.putExtra(PLACE_ID, restaurantId);
-                          //  Log.e("Test", "WorkMatFragment RestaurantId" + restaurantId);
                             startActivity(intent);
                         } else
                             Toast.makeText(getContext(), R.string.list_workmates_adapter_no_lunch, Toast.LENGTH_LONG).show();

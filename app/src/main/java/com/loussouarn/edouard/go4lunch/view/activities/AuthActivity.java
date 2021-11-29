@@ -189,7 +189,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     // User management
-
     @Nullable
     protected FirebaseUser getCurrentUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
@@ -201,9 +200,11 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             String uId = this.getCurrentUser().getUid();
             String userName = this.getCurrentUser().getDisplayName();
             String email = this.getCurrentUser().getEmail();
-            String urlPicture = (this.getCurrentUser().getPhotoUrl() != null) ? this.getCurrentUser().getPhotoUrl().toString() : null;
+            String urlPicture = (this.getCurrentUser().getPhotoUrl() != null) ?
+                    this.getCurrentUser().getPhotoUrl().toString() : null;
 
-            UserFirebase.createUser(uId, userName, email, urlPicture).addOnFailureListener(this.onFailureListener());
+            UserFirebase.createUser(uId, userName, email, urlPicture).
+                    addOnFailureListener(this.onFailureListener());
         }
     }
 

@@ -193,17 +193,14 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements View
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
                     Restaurant usersToday = documentSnapshot.toObject(Restaurant.class);
-                    Log.e(TAG, "getClientList usersToday = " + usersToday);
                     Date dateRestaurantSheet;
                     if (usersToday != null) {
-
                         dateRestaurantSheet = usersToday.getDateCreated();
                         DateFormat myDate = new DateFormat();
                         String dateRegistered = myDate.getRegisteredDate(dateRestaurantSheet);
                         if (dateRegistered.equals(today)) {
                             clientListOfTheDay = usersToday.getClientsTodayList();
                             configureRecyclerview();
-                            Log.e(TAG, "getClientList + clientListOfTheDay = " + clientListOfTheDay);
                         }
                     }
                 }
@@ -217,8 +214,13 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements View
 
             PlacesClient placesClient = Places.createClient(this);
 
-            List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME, Place.Field.ADDRESS,
-                    Place.Field.LAT_LNG, Place.Field.RATING, Place.Field.PHOTO_METADATAS, Place.Field.WEBSITE_URI, Place.Field.PHONE_NUMBER);
+            List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME,
+                    Place.Field.ADDRESS,
+                    Place.Field.LAT_LNG,
+                    Place.Field.RATING,
+                    Place.Field.PHOTO_METADATAS,
+                    Place.Field.WEBSITE_URI,
+                    Place.Field.PHONE_NUMBER);
 
             final FetchPlaceRequest placeRequest = FetchPlaceRequest.newInstance(restaurantId, placeFields);
 
@@ -405,10 +407,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements View
                                 updateRestaurantInUser("", "", today);
                                 // This user is also removed from Restaurant from the guest list
                                 removeUserInRestaurant(restaurantOfTheDayId, restaurantOfTheDayName);
-                               // Log.e(TAG, "onSuccess: removeUserInRestaurant");
                             } else {
-                                // TODO Changer commentaire
-                                // Changement de resto du jour, on efface l'ancien choix et ajoute l'utilisateur dans le nouveau choix
+                                // Change restaurant choice so, removed the old choice et add user in the new chosen restaurant
                                 // It was not this one so we replace it with the new choice in User
                                 choiceButton.setImageResource(R.drawable.ic_go_restaurant);
                                 updateRestaurantInUser(restaurantOfTheDayId, restaurantOfTheDayName, today);
@@ -416,7 +416,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements View
                                 removeUserInRestaurant(lastRestaurantId, lastRestaurantName);
                                 // and we add the user in the list of guests of the new restaurant
                                 addUserInRestaurant(restaurantOfTheDayId, restaurantOfTheDayName);
-                             //   Log.e(TAG, "onSuccess: addUserInRestaurant 1");
                             }
                         } else {
                             // No restaurant was registered, so we save this one in User
@@ -424,12 +423,9 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements View
                             choiceButton.setImageResource(R.drawable.ic_go_restaurant);
                             // and we add this guest to the restaurant list
                             addUserInRestaurant(restaurantOfTheDayId, restaurantOfTheDayName);
-                           // Log.e(TAG, "onSuccess: addUserInRestaurant 2 ");
                         }
                     }
                 }
-                Log.e(TAG, "adapteur methode updateRestaurantOfTheDayInFirebase =  " + adapter);
-
             }
         });
     }

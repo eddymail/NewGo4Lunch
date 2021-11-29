@@ -21,7 +21,6 @@ public class UserFirebase {
         return FirebaseFirestore.getInstance().collection(COLLECTION_NAME);
     }
 
-
     // --- CREATE ---
     public static Task<Void> createUser(String uid, String username, String userEmail, String urlPicture) {
         User userToCreate = new User(uid, username, userEmail, urlPicture);
@@ -57,17 +56,17 @@ public class UserFirebase {
         return UserFirebase.getUsersCollection().document(uid).update("username", username);
     }
 
-    // --- UPDATE TODAY'S RESTAURANT ---
+    // --- UPDATE TODAY'S RESTAURANT ID---
     public static Task<Void> updateRestaurantOfTheDay(String restaurantOfTheDay, String uid) {
         return UserFirebase.getUsersCollection().document(uid).update("restaurantOfTheDay", restaurantOfTheDay);
     }
 
-    // --- UPDATE TODAY'S RESTAURANT---
+    // --- UPDATE TODAY'S RESTAURANT NAME---
     public static Task<Void> updateRestaurantOfTheDayName(String restaurantOfTheDayName, String uid) {
         return UserFirebase.getUsersCollection().document(uid).update("restaurantOfTheDayName", restaurantOfTheDayName);
     }
 
-    // --- UPDATE DATE'S RESTAURANT---
+    // --- UPDATE DATE'S RESTAURANT CHOICE DATE---
     public static Task<Void> updateRestaurantChoiceDate(String restaurantChoiceDate, String uid) {
         return UserFirebase.getUsersCollection().document(uid).update("restaurantChoiceDate", restaurantChoiceDate);
     }

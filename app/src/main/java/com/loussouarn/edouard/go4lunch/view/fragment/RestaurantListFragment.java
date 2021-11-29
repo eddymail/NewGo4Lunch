@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -25,6 +26,7 @@ import com.loussouarn.edouard.go4lunch.R;
 import com.loussouarn.edouard.go4lunch.view.activities.RestaurantDetailsActivity;
 import com.loussouarn.edouard.go4lunch.view.adapter.RestaurantListViewAdapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class RestaurantListFragment extends Fragment {
     private String placeIdRestaurant = "restaurant_place_id";
     private RecyclerView recyclerView;
     private RestaurantListViewAdapter adapter;
+    private List<PlaceLikelihood> places = new ArrayList<>();
 
     public RestaurantListFragment() {
         // Required empty public constructor
@@ -48,13 +51,10 @@ public class RestaurantListFragment extends Fragment {
 
     }
 
-    //TODO Organiser le code
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_restaurant_list, container, false);
-
 
         PlacesClient placesClient = Places.createClient(getActivity());
 
@@ -68,23 +68,29 @@ public class RestaurantListFragment extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<FindCurrentPlaceResponse> task) {
                     if (task.isSuccessful() && task.getResult() != null) {
-                        FindCurrentPlaceResponse   likelyPlaces = task.getResult();
+                        FindCurrentPlaceResponse likelyPlaces = task.getResult();
+
+                        for (int i = 0; i < likelyPlaces.getPlaceLikelihoods().size(); i++) {
+                            PlaceLikelihood place = likelyPlaces.getPlaceLikelihoods().get(i);
+                            List<Place.Type> type = place.getPlace().getTypes();
+
+                            if (type != null && type.contains(Place.Type.RESTAURANT)) {
+                                places.add(place);
+                            }
+                        }
 
                         recyclerView = getView().findViewById(R.id.listRestaurant);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-                        adapter = new RestaurantListViewAdapter(getContext(), likelyPlaces.getPlaceLikelihoods()) {
+                        adapter = new RestaurantListViewAdapter(getContext(), places) {
                             @Override
                             public void onItemClick(int position) {
                             }
                         };
-
                         recyclerView.setAdapter(adapter);
-                        adapter.setOnItemClickListener(new RestaurantListViewAdapter.OnRestaurantItemClickListener(){
+                        adapter.setOnItemClickListener(new RestaurantListViewAdapter.OnRestaurantItemClickListener() {
                             @Override
                             public void onItemClick(int position) {
-                                launchRestaurantsDetailActivity(likelyPlaces.getPlaceLikelihoods().get(position).getPlace().getId());
+                                launchRestaurantsDetailActivity(places.get(position).getPlace().getId());
                             }
                         });
                     } else {
@@ -98,12 +104,9 @@ public class RestaurantListFragment extends Fragment {
     }
 
 
-
-
     private void launchRestaurantsDetailActivity(String id) {
         Intent intent = new Intent(getContext(), RestaurantDetailsActivity.class);
         intent.putExtra(placeIdRestaurant, id);
-        Log.e("Test", "FRAGMENT resto id: " + id);
         startActivity(intent);
     }
 }

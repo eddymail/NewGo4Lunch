@@ -20,7 +20,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBiIpE2vWrjxnBBMy61WqvrMfBdO6Lh4yI" />
 
-        <!-- NOTIFICATION SERVICE -->
         <service
             android:name=".utils.NotificationService">
             <intent-filter>

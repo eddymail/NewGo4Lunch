@@ -24,7 +24,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
@@ -98,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureNavigationView() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -159,10 +157,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_drawer_settings:
                 startSettingsActivity();
                 break;
-
             case R.id.menu_drawer_logout:
                 logOut();
                 break;
+
             case R.id.mapViewFragment:
                 loadFragment(mapFragment);
                 return true;
@@ -262,8 +260,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initializePlaces() {
-        String apiKey = getString(R.string.api_key);
-        //Initialize Places. For simplicity, the API key is hard-coded.
+        String apiKey = getString(R.string.api_place_key);
+        //Initialize Places.
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), apiKey);
         }

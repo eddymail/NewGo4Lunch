@@ -19,7 +19,6 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.OpeningHours;
 import com.google.android.libraries.places.api.model.Period;
 import com.google.android.libraries.places.api.model.PhotoMetadata;
-import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FetchPhotoRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -60,21 +59,15 @@ public abstract class RestaurantListViewAdapter extends RecyclerView.Adapter<Res
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
         PlaceLikelihood place = list.get(position);
-
-        //  List<Place.Type> type = place.getPlace().getTypes();
-
-//        // TODO Verifier condition type.RESTAURANT
-//        if (type != null) {
-//
-//            if (type.contains(Place.Type.RESTAURANT)) {
-
 
         holder.name.setText(place.getPlace().getName());
         holder.address.setText(place.getPlace().getAddress());
 
         // Opening hours
         Log.e(TAG, "place.getPlace().getOpeningHours()");
+
         holder.openHours.setTextColor(holder.openHours.getResources().getColor(R.color.colorGrey));
         if (place.getPlace().getOpeningHours() != null) {
             // default value that will be overwritten with today's schedules if the restaurant is open today
@@ -106,7 +99,6 @@ public abstract class RestaurantListViewAdapter extends RecyclerView.Adapter<Res
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
                     Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
-
                     // Date check
                     Date dateRestaurantSheet;
                     if (restaurant != null) {
@@ -158,8 +150,6 @@ public abstract class RestaurantListViewAdapter extends RecyclerView.Adapter<Res
                 holder.picture.setImageResource(R.drawable.meal_picture);
             }
         });
-//            }
-//        }
     }
 
     @Override
@@ -192,7 +182,7 @@ public abstract class RestaurantListViewAdapter extends RecyclerView.Adapter<Res
             } else {
                 String text;
                 String textTime;
-                //text  OK allows you to manage cases where there are several opening hours for the same day
+                // text OK allows you to manage cases where there are several opening hours for the same day
                 DateFormat hour = new DateFormat();
                 switch (getOpeningHour(period)) {
                     case 1:

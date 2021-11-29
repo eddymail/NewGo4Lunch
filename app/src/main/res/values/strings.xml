@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">Go4Lunch</string>
 
-    <!-- MAIN ACTIVITY -->
-    <string name="main_activity_no_choose_restaurant">You have not selected a restaurant</string>
-    <string name="main_activity_success_log_out">Log out with success</string>
-
     <!-- AUTH ACTIVITY -->
     <string name="auth_activity_subtitle">Find a nice restaurant and invite your co-workers for lunch!</string>
     <string name="auth_activity_button_facebook">Sign in with Facebook</string>
@@ -14,6 +10,10 @@
     <string name="connection_succeed">successful connection</string>
     <string name="error_authentication_canceled">authentication is canceled</string>
     <string name="error_no_internet">no internet connection</string>
+
+    <!-- MAIN ACTIVITY -->
+    <string name="main_activity_no_choose_restaurant">You have not selected a restaurant</string>
+    <string name="main_activity_success_log_out">Log out with success</string>
 
     <!-- Used in NavigationDrawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -73,7 +73,8 @@
 
 
     <!-- GOOGLE MAP -->
-    <string name="api_key">AIzaSyBiIpE2vWrjxnBBMy61WqvrMfBdO6Lh4yI</string>
+    <string name="api_maps_key">AIzaSyAPGMoli1adgZDCo74zLcTHJYA2O0LmECc</string>
+    <string name="api_place_key">AIzaSyBiIpE2vWrjxnBBMy61WqvrMfBdO6Lh4yI</string>
     <string name="bottom_navigation_menu_list_view">List View</string>
     <string name="bottom_navigation_menu_map_view">Map View</string>
 

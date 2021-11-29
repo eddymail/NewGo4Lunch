@@ -52,7 +52,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private final static String PLACE_ID_RESTAURANT = "restaurant_place_id";
     private final static String TAG = "MapsFragment";
-    private static final float DEFAULT_ZOOM = 16f;
+    private static final float ZOOM_LEVEL = 18.0f;
     private FloatingActionButton locationButton;
     private GpsTracker gpsTracker;
     private Marker marker;
@@ -121,9 +121,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void initMapForMarkers() {
-        if(isMapReady && isStarted){
+        if (isMapReady && isStarted) {
             this.googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-            this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(getLocation().getLatitude(), getLocation().getLongitude()), DEFAULT_ZOOM));
+            this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(getLocation().getLatitude(), getLocation().getLongitude()), ZOOM_LEVEL));
             setMarker();
             init();
         }
@@ -131,7 +131,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void setMarker() {
         PlacesClient placesClient = Places.createClient(getActivity());
-        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
+        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.TYPES);
         FindCurrentPlaceRequest request = FindCurrentPlaceRequest.newInstance(placeFields);
 
         if (ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -143,67 +143,56 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         FindCurrentPlaceResponse likelyPlaces = task.getResult();
 
                         for (int i = 0; i < likelyPlaces.getPlaceLikelihoods().size(); i++) {
-
                             PlaceLikelihood place = likelyPlaces.getPlaceLikelihoods().get(i);
+                            List<Place.Type> type = place.getPlace().getTypes();
 
-                            // List<Place.Type> type = place.getPlace().getTypes();
+                         if (type != null && type.contains(Place.Type.RESTAURANT)) {
 
-                            // Log.e("Test", " Place Type : " + type);
-                            // TODO Verifier condition type.RESTAURANT
+                                restaurantName = place.getPlace().getName();
+                                restaurantPlaceId = place.getPlace().getId();
 
-                            /*    if (type != null && type.contains(Place.Type.RESTAURANT)) {*/
+                                final MarkerOptions markerOptions = new MarkerOptions();
 
-                            restaurantName = place.getPlace().getName();
-                            restaurantPlaceId = place.getPlace().getId();
-
-                            final MarkerOptions markerOptions = new MarkerOptions();
-
-                            RestaurantFirebase.getRestaurant(place.getPlace().getId()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    if (documentSnapshot.exists()) {
-                                       // Log.e("Test", "MAPFRAGMENT onSuccess");
-                                        Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
-                                        Date dateRestaurantSheet;
-                                        if (restaurant != null) {
-                                            dateRestaurantSheet = restaurant.getDateCreated();
-                                            DateFormat myDate = new DateFormat();
-                                            DateFormat forToday = new DateFormat();
-                                            final String today = forToday.getTodayDate();
-                                            String dateRegistered = myDate.getRegisteredDate(dateRestaurantSheet);
-                                          //  Log.e("Test", "Condition - today = "+ today + " dateRegistred = " + dateRegistered);
-
-                                            if (dateRegistered.equals(today)) {
-                                             //   Log.e("Test", "Repere vert - today = "+ today + " dateRegistred = " + dateRegistered);
-                                                int users = restaurant.getClientsTodayList().size();
-                                                if (users > 0) {
-                                                    markerOptions.position(place.getPlace().getLatLng())
-                                                            .title(restaurantName)
-                                                            // .snippet(restaurantPlaceId)
-                                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                                                    marker = MapFragment.this.googleMap.addMarker(markerOptions);
-                                                    marker.setTag(restaurantPlaceId);
+                                RestaurantFirebase.getRestaurant(place.getPlace().getId()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        if (documentSnapshot.exists()) {
+                                            Restaurant restaurant = documentSnapshot.toObject(Restaurant.class);
+                                            Date dateRestaurantSheet;
+                                            if (restaurant != null) {
+                                                dateRestaurantSheet = restaurant.getDateCreated();
+                                                DateFormat myDate = new DateFormat();
+                                                DateFormat forToday = new DateFormat();
+                                                final String today = forToday.getTodayDate();
+                                                String dateRegistered = myDate.getRegisteredDate(dateRestaurantSheet);
+                                                if (dateRegistered.equals(today)) {
+                                                    int users = restaurant.getClientsTodayList().size();
+                                                    if (users > 0) {
+                                                        markerOptions.position(place.getPlace().getLatLng())
+                                                                .title(restaurantName)
+                                                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                                                        marker = MapFragment.this.googleMap.addMarker(markerOptions);
+                                                        marker.setTag(restaurantPlaceId);
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
-                            });
+                                });
 
-                            markerOptions.position(place.getPlace().getLatLng())
-                                    .title(restaurantName)
-                                    //  .snippet(restaurantPlaceId)
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                            marker = MapFragment.this.googleMap.addMarker(markerOptions);
-                            marker.setTag(restaurantPlaceId);
+                                markerOptions.position(place.getPlace().getLatLng())
+                                        .title(restaurantName)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                                marker = MapFragment.this.googleMap.addMarker(markerOptions);
+                                marker.setTag(restaurantPlaceId);
 
-                            MapFragment.this.googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                                @Override
-                                public void onInfoWindowClick(Marker marker) {
-                                    lunchRestaurantDetailsActivity(marker.getTag().toString());
-                                }
-                            });
-                            /* }*/
+                                MapFragment.this.googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                                    @Override
+                                    public void onInfoWindowClick(Marker marker) {
+                                        lunchRestaurantDetailsActivity(marker.getTag().toString());
+                                    }
+                                });
+                            }
                         }
                     } else {
                         Log.e(TAG, "Exception: %s", task.getException());
@@ -237,7 +226,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(getLocation().getLatitude(), getLocation().getLongitude()), DEFAULT_ZOOM));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(getLocation().getLatitude(), getLocation().getLongitude()), ZOOM_LEVEL));
             }
         });
     }
