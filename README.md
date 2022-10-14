@@ -1,17 +1,18 @@
 # P7_Go4Lunch
 
-## Informations générales
-Ce dépôt contient une application pour le P7 du parcours **Grande École du Numérique**.
-Cette application permet de trouver un restaurant près de son lieu de travail et d’indiquer son choix à ses collègues.
-A son ouverture, lorsqu’on est connecté, l’application affiche la carte avec les restaurants à proximité.
-On trouve la liste des restaurants qui sont proche de nous. On peut voir  à quelle distance se trouve le restaurant, le nombre de collègues qui aiment le restaurant et la note des avis de celui-ci représenté par des étoiles. 
+## General informations
+This repository contains an application for the P7 of the **Grande École du Numérique** course.
+This application allows you to find a restaurant near your workplace and indicate your choice to your colleagues.
+When you open it, when you are connected, the application displays the map with nearby restaurants.
+We find the list of restaurants that are close to us. You can see how far away the restaurant is, the number of colleagues who like the restaurant and the rating of the reviews of the restaurant represented by stars.
+Firebase is used to manage authentication by Google, Facebook and Twitter. User accounts and restaurant data are stored through FireStore.
 
-## Démarrage
-Pour ouvrir le projet sous Android Studio.
-* Dans le menu VCS
-  * import from version control 
-  * git 
-  * Renseigner ensuite l'URL du repository.
+## Startup
+To open the project in Android Studio.
+* In the VCS menu
+  * import from version control
+  *git
+  * Then enter the URL of the repository.
 
 ## Auteur
 * Edouard Loussouarn
