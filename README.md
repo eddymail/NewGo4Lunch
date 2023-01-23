@@ -1,4 +1,6 @@
 # P7_Go4Lunch
+![Prez Picture](https://user-images.githubusercontent.com/53012350/214001535-0d33986b-3946-4fcb-a87b-ead7bbe9b000.png)
+
 
 ## General informations
 This repository contains an application for the P7 of the **Grande École du Numérique** course.
